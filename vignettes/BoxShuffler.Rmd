@@ -1,0 +1,95 @@
+---
+title: "Using BoxShuffler for Experimental Design"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using BoxShuffler for Experimental Design}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+The `BoxShuffler` package provides tools for designing and optimizing experimental layouts with randomized sample placement, adjacency conflict resolution, and metric evaluation. This vignette demonstrates a typical workflow using the package.
+
+# Example Workflow
+
+## Mock Data Setup
+
+To begin, we will create a mock dataset of samples with genotypes and replicates:
+
+```r
+library(BoxShuffler)
+
+# Create a data frame representing samples with genotypes and replicates
+mock_samples <- data.frame(
+  Genotype = paste0("G", 1:10),
+  Reps = c(3, 5, 2, 4, 6, 3, 2, 5, 4, 3) # Number of replicates for each genotype
+)
+
+# Define experimental conditions
+mock_conditions <- c("cond1", "cond2", "cond3")
+```
+
+## Configuring Box Dimensions and Parallel Processing
+
+Next, we define the dimensions of the boxes and configure the parallel processing settings:
+
+```r
+# Box dimensions
+box_rows <- 3
+box_cols <- 3
+
+# Number of iterations and cores for parallel processing
+n_iterations <- 10
+n_cores <- 2
+```
+
+## Generating Boxes
+
+The `generateBoxes` function creates randomized experimental layouts with conflict resolution. Here is how to use it:
+
+```r
+# Generate mock experiment input data using the generateBoxes function
+mock_box_results <- generateBoxes(
+  samples = mock_samples,
+  genotypes = "Genotype",
+  reps = "Reps",
+  conditions = mock_conditions,
+  boxRows = box_rows,
+  boxCols = box_cols,
+  nIterations = n_iterations,
+  nCores = n_cores
+)
+```
+
+## Evaluating Metrics
+
+The `scoreBoxes` function computes entropy, genotype diversity, and Simpson’s Diversity Index for the generated boxes:
+
+```r
+# Score the generated boxes to evaluate metrics
+mock_scores <- scoreBoxes(mock_box_results)
+```
+
+The resulting `mock_scores` object contains detailed metrics for each experiment.
+
+## Exporting Results
+
+Finally, we can export the desired experiment’s results to Excel and PDF files for visualization:
+
+```r
+# Export the first experiment to Excel and PDF files
+exportBox(
+  experiment = 1,
+  boxes = mock_box_results,
+  file_name = "mock_experiment_results"
+)
+```
+
+This generates:
+- **Excel file:** `mock_experiment_results.xlsx` (sample placements and genotype counts)
+- **PDF file:** `mock_experiment_results.pdf` (visual layout of boxes)
+
+# Conclusion
+
+The `BoxShuffler` package streamlines the process of experimental design by providing tools for generating, optimizing, and evaluating randomized sample placements. For further details, see the function-specific documentation.
