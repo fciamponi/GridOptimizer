@@ -1,6 +1,6 @@
 Package: GridOptimizer
 Title: Optimize Randomized Sample Placement in Grid-like spaces
-Version: 0.0.1.0
+Version: 0.0.1.1
 Authors@R: 
     person("Felipe", "Ciamponi", , "felipeec@suzano.com.br", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0076-8824"))
@@ -20,6 +20,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    devtools
 Config/testthat/edition: 3
 VignetteBuilder: knitr

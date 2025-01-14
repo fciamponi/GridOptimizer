@@ -130,10 +130,28 @@ generateGrids <- function(samples, sample_labels, reps, conditions, gridRows, gr
     return(NULL)
   }
 
-  results <- parallel::mclapply(seq_len(nIterations), function(iteration) {
-    pb$tick()
-    evaluate_solution(iteration)
-  }, mc.cores = nCores)
+  # results <- parallel::mclapply(seq_len(nIterations), function(iteration) {
+  #   pb$tick()
+  #   evaluate_solution(iteration)
+  # }, mc.cores = nCores)
+
+
+  # Set up parallel processing
+  cl <- makeCluster(nCores)  # Create a cluster
+  clusterExport(
+    cl,
+    varlist = c("samples", "condition_samples", "evaluate_solution",
+                "box_slots", "gridRows", "gridCols",
+                "resolve_conflicts", "validate_conflicts", "conditions"),
+    envir = environment()  # Use the correct environment
+  )
+  clusterExport(cl, varlist = c("is_adjacent"), envir = asNamespace("GridOptimizer"))
+  clusterEvalQ(cl, library(progress))
+
+  # Parallel execution
+  results <- parLapply(cl, seq_len(nIterations), evaluate_solution)
+
+  stopCluster(cl)  # Stop the cluster
 
   valid_results <- Filter(Negate(is.null), results)
   return(valid_results)
