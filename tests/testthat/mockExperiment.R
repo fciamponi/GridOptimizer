@@ -1,5 +1,7 @@
 # Mock data for testing GridOptimizer
 
+devtools::load_all()
+
 # Create a data frame representing samples with genotypes and replicates
 mock_samples <- data.frame(
   Genotype = paste0("G", 1:10),
@@ -20,11 +22,11 @@ n_cores <- 2
 # Generate mock experiment input data using the generateGrids function
 mock_box_results <- generateGrids(
   samples = mock_samples,
-  genotypes = "Genotype",
+  sample_labels = "Genotype",
   reps = "Reps",
   conditions = mock_conditions,
-  boxRows = box_rows,
-  boxCols = box_cols,
+  gridRows = box_rows,
+  gridCols = box_cols,
   nIterations = n_iterations,
   nCores = n_cores
 )
@@ -36,7 +38,7 @@ mock_scores <- scoreGrids(mock_box_results)
 exportGrid(
   experiment = 1,
   boxes = mock_box_results,
-  file_name = "mock_experiment_results"
+  file_name = "docs/mock_experiment_results"
 )
 
 # The files "mock_experiment_results.xlsx" and "mock_experiment_results.pdf" will be generated in the working directory.
