@@ -20,6 +20,9 @@
 #' scoreBoxes(box_results)
 #'
 #' @import dplyr
+#' @importFrom grDevices dev.off pdf
+#' @importFrom stats na.omit sd setNames
+
 #' @export
 scoreBoxes <- function(box_results) {
   scores <- lapply(box_results, function(result) {

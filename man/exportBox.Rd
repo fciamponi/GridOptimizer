@@ -22,7 +22,10 @@ Generates Excel and PDF files with the results.
 Exports box results to Excel and PDF formats for visualization and analysis.
 }
 \examples{
-# Example assumes a list of boxes exists.
-exportBox(1, boxes, file_name = "experiment_results")
+samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))
+conditions <- c("cond1", "cond2")
+boxes <- generateBoxes(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
+temp_file <- file.path(tempdir(), "experiment_results")
+exportBox(1, boxes, file_name = temp_file)
 
 }

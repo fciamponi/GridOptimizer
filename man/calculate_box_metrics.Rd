@@ -19,8 +19,11 @@ Computes aggregated metrics (entropy, unique genotypes, Simpson's Diversity Inde
 across multiple boxes.
 }
 \examples{
-boxes <- list(matrix(c("cond1_G1_1", "cond1_G2_1", NA, NA), nrow = 2, ncol = 2))
-genotypes <- c("G1", "G2")
+boxes <- list(
+  list(box = matrix(c("cond1_G1_1", "cond1_G2_1", NA, NA), nrow = 2, byrow = TRUE)),
+  list(box = matrix(c("cond1_G1_2", "cond1_G3_1", NA, NA), nrow = 2, byrow = TRUE))
+)
+genotypes <- c("G1", "G2", "G3")
 calculate_box_metrics(boxes, genotypes)
 
 }

@@ -16,11 +16,15 @@
 #' @return A list of generated boxes with conflict resolution applied.
 #'
 #' @examples
-#' samples <- data.frame(Genotype = c("G1", "G2"), Reps = c(3, 2))
-#' generateBoxes(samples, "Genotype", "Reps", c("cond1"), 2, 2, 1, 1)
+#' samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))
+#' conditions <- c("cond1", "cond2")
+#' boxes <- generateBoxes(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
 #'
 #' @import dplyr
 #' @import parallel
+#' @importFrom grDevices dev.off pdf
+#' @importFrom stats na.omit sd setNames
+
 #' @export
 generateBoxes <- function(samples, genotypes, reps, conditions, boxRows, boxCols, nIterations, nCores, availableBoxes = NULL) {
   # Validate inputs

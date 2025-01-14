@@ -44,16 +44,25 @@ PDF maps for each box. It processes the user's modifications to the box layout
 and creates visualizations for all the updated boxes.
 }
 \examples{
-myMap <- read.xlsx('./myPreviousOutput.xlsx', sheet_name = "Sample Placement")
+mock_data <- data.frame(
+Sample = c("G1", "G2", "G3", "G4", "G5"),
+Replicate = c(1, 2, 1, 3, 1),
+Condition = c("cond1", "cond1", "cond2", "cond2", "cond3"),
+Box = c(1, 1, 1, 2, 2),
+Row = c(1, 2, 3, 1, 2),
+Column = c(1, 2, 3, 1, 2)
+)
+
+temp_file <- file.path(tempdir(), "updated_map")
 generateMaps(
-  data = myMap,
+  data = mock_data,
   samples = "Sample",
   rep = "Replicate",
   cond = "Condition",
   box = "Box",
   row = "Row",
   col = "Column",
-  file_name = "updated_maps"
+  file_name = temp_file
 )
 
 }

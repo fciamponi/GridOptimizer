@@ -42,7 +42,8 @@ A list of generated boxes with conflict resolution applied.
 Generates boxes of genotypic samples based on given conditions and parameters.
 }
 \examples{
-samples <- data.frame(Genotype = c("G1", "G2"), Reps = c(3, 2))
-generateBoxes(samples, "Genotype", "Reps", c("cond1"), 2, 2, 1, 1)
+samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))
+conditions <- c("cond1", "cond2")
+boxes <- generateBoxes(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
 
 }
