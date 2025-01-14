@@ -1,5 +1,5 @@
-Package: BoxShuffler
-Title: Optimize Randomized Sample Placement in Box-like spaces
+Package: GridOptimizer
+Title: Optimize Randomized Sample Placement in Grid-like spaces
 Version: 0.0.1.0
 Authors@R: 
     person("Felipe", "Ciamponi", , "felipeec@suzano.com.br", role = c("aut", "cre"),

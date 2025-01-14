@@ -18,7 +18,7 @@
 #' @examples
 #' samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))
 #' conditions <- c("cond1", "cond2")
-#' boxes <- generateBoxes(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
+#' boxes <- generateGrids(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
 #'
 #' @import dplyr
 #' @import parallel
@@ -26,7 +26,7 @@
 #' @importFrom stats na.omit sd setNames
 
 #' @export
-generateBoxes <- function(samples, genotypes, reps, conditions, boxRows, boxCols, nIterations, nCores, availableBoxes = NULL) {
+generateGrids <- function(samples, genotypes, reps, conditions, boxRows, boxCols, nIterations, nCores, availableBoxes = NULL) {
   # Validate inputs
   if (!all(c(genotypes, reps) %in% colnames(samples))) {
     stop("The input dataset must contain the specified columns for genotypes and reps.")

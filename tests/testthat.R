@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(BoxShuffler)
+library(GridOptimizer)
 
-test_check("BoxShuffler")
+test_check("GridOptimizer")

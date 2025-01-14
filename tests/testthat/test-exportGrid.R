@@ -1,4 +1,4 @@
-test_that("exportBox generates Excel and PDF files", {
+test_that("exportGrid generates Excel and PDF files", {
   skip_on_cran() # Skip file creation tests on CRAN
 
   # Mock box results
@@ -23,8 +23,8 @@ test_that("exportBox generates Excel and PDF files", {
   excel_file <- file.path(temp_dir, "test_export.xlsx")
   pdf_file <- file.path(temp_dir, "test_export.pdf")
 
-  # Call exportBox
-  exportBox(1, boxes, file_name = file.path(temp_dir, "test_export"))
+  # Call exportGrid
+  exportGrid(1, boxes, file_name = file.path(temp_dir, "test_export"))
 
   # Validate file existence
   expect_true(file.exists(excel_file))

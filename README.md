@@ -1,14 +1,14 @@
-# BoxShuffler
+# GridOptimizer
 
-BoxShuffler is an R package for generating, visualizing, and analyzing genotypic sample placements in experimental conditions. It supports conflict resolution and robust metrics calculation for experimental designs.
+GridOptimizer is an R package for generating, visualizing, and analyzing genotypic sample placements in experimental conditions. It supports conflict resolution and robust metrics calculation for experimental designs.
 
 ---
 
 ## Features
 
-- Generate experimental boxes with replicates across conditions.
+- Generate experimental grids with replicates across conditions.
 - Export results to Excel and PDF formats.
-- Score boxes using metrics like entropy, Simpson's index, and randomness percentage.
+- Score grids using metrics like entropy, Simpson's index, and randomness percentage.
 - Update and visualize sample placements from modified Excel sheets.
 
 ---
@@ -22,8 +22,8 @@ You can install the latest version of the package directly from GitHub using `de
 # Install devtools if not already installed
 install.packages("devtools")
 
-# Install BoxShuffler from GitHub
-devtools::install_github("fciamponi/BoxShuffler")
+# Install GridOptimizer from GitHub
+devtools::install_github("fciamponi/GridOptimizer")
 ```
 
 ### From Source
@@ -31,7 +31,7 @@ devtools::install_github("fciamponi/BoxShuffler")
 2. Install it in RStudio:
 
    ```r
-   install.packages("/path/to/BoxShuffler_0.1.0.tar.gz", repos = NULL, type = "source")
+   install.packages("/path/to/GridOptimizer_0.1.0.tar.gz", repos = NULL, type = "source")
    ```
 
 ---
@@ -40,7 +40,7 @@ devtools::install_github("fciamponi/BoxShuffler")
 
 ### Example Workflow
 
-#### 1. Generate Boxes
+#### 1. Generate grids
 ```r
 samples <- data.frame(
   Genotype = c("G1", "G2", "G3"),
@@ -48,7 +48,7 @@ samples <- data.frame(
 )
 conditions <- c("cond1", "cond2", "cond3")
 
-boxes <- generateBoxes(
+grids <- generateGrids(
   samples = samples,
   sample_label = "Genotype",
   reps = "Reps",
@@ -62,12 +62,12 @@ boxes <- generateBoxes(
 
 #### 2. Score Boxes
 ```r
-scores <- scoreBoxes(boxes)
+scores <- scoreGrids(grids)
 ```
 
 #### 3. Export Results
 ```r
-exportBox(1, boxes, file_name = "experiment_results")
+exportGrid(1, grids, file_name = "experiment_results")
 ```
 
 #### 4. Generate Maps from Updated Sample Placement
@@ -89,12 +89,12 @@ generateMaps(
 
 ## Documentation
 
-Complete documentation and vignettes are available [here](https://github.com/fciamponi/BoxShuffler/tree/main/vignettes).
+Complete documentation and vignettes are available [here](https://github.com/fciamponi/GridOptimizer/tree/main/vignettes).
 
 You can also access the package documentation within R:
 
 ```r
-help(package = "BoxShuffler")
+help(package = "GridOptimizer")
 ```
 
 ---

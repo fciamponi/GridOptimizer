@@ -1,15 +1,15 @@
 ---
-title: "Using BoxShuffler for Experimental Design"
+title: "Using GridOptimizer for Experimental Design"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using BoxShuffler for Experimental Design}
+  %\VignetteIndexEntry{Using GridOptimizer for Experimental Design}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 # Introduction
 
-The `BoxShuffler` package provides tools for designing and optimizing experimental layouts with randomized sample placement, adjacency conflict resolution, and metric evaluation. This vignette demonstrates a typical workflow using the package.
+The `GridOptimizer` package provides tools for designing and optimizing experimental layouts with randomized sample placement, adjacency conflict resolution, and metric evaluation. This vignette demonstrates a typical workflow using the package.
 
 # Example Workflow
 
@@ -18,7 +18,7 @@ The `BoxShuffler` package provides tools for designing and optimizing experiment
 To begin, we will create a mock dataset of samples with genotypes and replicates:
 
 ```r
-library(BoxShuffler)
+library(GridOptimizer)
 
 # Create a data frame representing samples with genotypes and replicates
 mock_samples <- data.frame(
@@ -46,11 +46,11 @@ n_cores <- 2
 
 ## Generating Boxes
 
-The `generateBoxes` function creates randomized experimental layouts with conflict resolution. Here is how to use it:
+The `generateGrids` function creates randomized experimental layouts with conflict resolution. Here is how to use it:
 
 ```r
-# Generate mock experiment input data using the generateBoxes function
-mock_box_results <- generateBoxes(
+# Generate mock experiment input data using the generateGrids function
+mock_box_results <- generateGrids(
   samples = mock_samples,
   genotypes = "Genotype",
   reps = "Reps",
@@ -64,11 +64,11 @@ mock_box_results <- generateBoxes(
 
 ## Evaluating Metrics
 
-The `scoreBoxes` function computes entropy, genotype diversity, and Simpson’s Diversity Index for the generated boxes:
+The `scoreGrids` function computes entropy, genotype diversity, and Simpson’s Diversity Index for the generated boxes:
 
 ```r
 # Score the generated boxes to evaluate metrics
-mock_scores <- scoreBoxes(mock_box_results)
+mock_scores <- scoreGrids(mock_box_results)
 ```
 
 The resulting `mock_scores` object contains detailed metrics for each experiment.
@@ -79,7 +79,7 @@ Finally, we can export the desired experiment’s results to Excel and PDF files
 
 ```r
 # Export the first experiment to Excel and PDF files
-exportBox(
+exportGrid(
   experiment = 1,
   boxes = mock_box_results,
   file_name = "mock_experiment_results"
@@ -92,4 +92,4 @@ This generates:
 
 # Conclusion
 
-The `BoxShuffler` package streamlines the process of experimental design by providing tools for generating, optimizing, and evaluating randomized sample placements. For further details, see the function-specific documentation.
+The `GridOptimizer` package streamlines the process of experimental design by providing tools for generating, optimizing, and evaluating randomized sample placements. For further details, see the function-specific documentation.

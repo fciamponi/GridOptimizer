@@ -1,4 +1,4 @@
-test_that("scoreBoxes evaluates metrics correctly", {
+test_that("scoreGrids evaluates metrics correctly", {
   # Mock results for boxes
   box_results <- list(
     list(
@@ -30,7 +30,7 @@ test_that("scoreBoxes evaluates metrics correctly", {
   )
 
   # Evaluate metrics
-  scores <- scoreBoxes(box_results)
+  scores <- scoreGrids(box_results)
 
   # Validate structure
   expect_type(scores, "list")

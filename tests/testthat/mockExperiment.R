@@ -1,4 +1,4 @@
-# Mock data for testing BoxShuffler
+# Mock data for testing GridOptimizer
 
 # Create a data frame representing samples with genotypes and replicates
 mock_samples <- data.frame(
@@ -17,8 +17,8 @@ box_cols <- 3
 n_iterations <- 10
 n_cores <- 2
 
-# Generate mock experiment input data using the generateBoxes function
-mock_box_results <- generateBoxes(
+# Generate mock experiment input data using the generateGrids function
+mock_box_results <- generateGrids(
   samples = mock_samples,
   genotypes = "Genotype",
   reps = "Reps",
@@ -30,10 +30,10 @@ mock_box_results <- generateBoxes(
 )
 
 # Score the generated boxes to evaluate metrics
-mock_scores <- scoreBoxes(mock_box_results)
+mock_scores <- scoreGrids(mock_box_results)
 
 # Export the first experiment to Excel and PDF files
-exportBox(
+exportGrid(
   experiment = 1,
   boxes = mock_box_results,
   file_name = "mock_experiment_results"

@@ -16,16 +16,16 @@ utils::globalVariables(c("Column", "Row", "Label"))
 #' @examples
 #' samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))
 #' conditions <- c("cond1", "cond2")
-#' boxes <- generateBoxes(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
+#' boxes <- generateGrids(samples, "Genotype", "Reps", conditions, 2, 2, 10, 1)
 #' temp_file <- file.path(tempdir(), "experiment_results")
-#' exportBox(1, boxes, file_name = temp_file)
+#' exportGrid(1, boxes, file_name = temp_file)
 #'
 #' @import openxlsx
 #' @import ggplot2
 #' @importFrom grDevices dev.off pdf
 #' @importFrom stats na.omit sd setNames
 #' @export
-exportBox <- function(experiment, boxes, file_name = "experiment_output", font_size = NULL) {
+exportGrid <- function(experiment, boxes, file_name = "experiment_output", font_size = NULL) {
   if (experiment > length(boxes) || is.null(boxes[[experiment]])) {
     stop(paste("Invalid experiment number. Please select a number between 1 and", length(boxes)))
   }

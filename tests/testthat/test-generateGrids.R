@@ -1,10 +1,10 @@
-test_that("generateBoxes generates valid boxes", {
+test_that("generateGrids generates valid boxes", {
   # Mock sample data
   samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))
   conditions <- c("cond1", "cond2")
 
   # Generate boxes
-  results <- generateBoxes(
+  results <- generateGrids(
     samples = samples,
     genotypes = "Genotype",
     reps = "Reps",

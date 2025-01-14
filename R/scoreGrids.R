@@ -17,14 +17,14 @@
 #'     )
 #'   )
 #' ))
-#' scoreBoxes(box_results)
+#' scoreGrids(box_results)
 #'
 #' @import dplyr
 #' @importFrom grDevices dev.off pdf
 #' @importFrom stats na.omit sd setNames
 
 #' @export
-scoreBoxes <- function(box_results) {
+scoreGrids <- function(box_results) {
   scores <- lapply(box_results, function(result) {
     all_boxes <- unlist(result$boxes, recursive = FALSE)
 
