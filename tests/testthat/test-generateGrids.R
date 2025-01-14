@@ -6,11 +6,11 @@ test_that("generateGrids generates valid boxes", {
   # Generate boxes
   results <- generateGrids(
     samples = samples,
-    genotypes = "Genotype",
+    sample_label = "Genotype",
     reps = "Reps",
     conditions = conditions,
-    boxRows = 2,
-    boxCols = 2,
+    gridRows = 2,
+    gridCols = 2,
     nIterations = 10,
     nCores = 1
   )

@@ -6,34 +6,34 @@
 \usage{
 generateGrids(
   samples,
-  genotypes,
+  sample_labels,
   reps,
   conditions,
-  boxRows,
-  boxCols,
+  gridRows,
+  gridCols,
   nIterations,
   nCores,
-  availableBoxes = NULL
+  availableGrids = NULL
 )
 }
 \arguments{
 \item{samples}{Data frame with genotype and replicate information.}
 
-\item{genotypes}{Column name for genotype data.}
+\item{sample_labels}{Column name for genotype data.}
 
 \item{reps}{Column name for replicate data.}
 
 \item{conditions}{Experimental conditions to consider.}
 
-\item{boxRows}{Number of rows in each box.}
+\item{gridRows}{Number of rows in each box.}
 
-\item{boxCols}{Number of columns in each box.}
+\item{gridCols}{Number of columns in each box.}
 
 \item{nIterations}{Number of iterations to attempt box generation.}
 
 \item{nCores}{Number of cores for parallel execution.}
 
-\item{availableBoxes}{Optional; maximum number of boxes allowed.}
+\item{availableGrids}{Optional; maximum number of grids allowed.}
 }
 \value{
 A list of generated boxes with conflict resolution applied.

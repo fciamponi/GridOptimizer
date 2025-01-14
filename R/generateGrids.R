@@ -4,14 +4,14 @@
 #' Generates boxes of genotypic samples based on given conditions and parameters.
 #'
 #' @param samples Data frame with genotype and replicate information.
-#' @param genotypes Column name for genotype data.
+#' @param sample_labels Column name for genotype data.
 #' @param reps Column name for replicate data.
 #' @param conditions Experimental conditions to consider.
-#' @param boxRows Number of rows in each box.
-#' @param boxCols Number of columns in each box.
+#' @param gridRows Number of rows in each box.
+#' @param gridCols Number of columns in each box.
 #' @param nIterations Number of iterations to attempt box generation.
 #' @param nCores Number of cores for parallel execution.
-#' @param availableBoxes Optional; maximum number of boxes allowed.
+#' @param availableGrids Optional; maximum number of grids allowed.
 #'
 #' @return A list of generated boxes with conflict resolution applied.
 #'
@@ -22,42 +22,56 @@
 #'
 #' @import dplyr
 #' @import parallel
+#' @import progress
 #' @importFrom grDevices dev.off pdf
 #' @importFrom stats na.omit sd setNames
 
 #' @export
-generateGrids <- function(samples, genotypes, reps, conditions, boxRows, boxCols, nIterations, nCores, availableBoxes = NULL) {
+generateGrids <- function(samples, sample_labels, reps, conditions, gridRows, gridCols, nIterations, nCores, availableGrids = NULL) {
   # Validate inputs
-  if (!all(c(genotypes, reps) %in% colnames(samples))) {
-    stop("The input dataset must contain the specified columns for genotypes and reps.")
+  if (!all(c(sample_labels, reps) %in% colnames(samples))) {
+    stop("The input dataset must contain the specified columns for sample_labels and reps.")
+  }
+
+  # Check if the progress package is installed
+  if (!requireNamespace("progress", quietly = TRUE)) {
+    stop("The 'progress' package is required. Please install it using install.packages('progress').")
   }
 
   total_samples <- sum(samples[[reps]]) * length(conditions)
-  box_slots <- boxRows * boxCols
+  box_slots <- gridRows * gridCols
   boxes_per_condition <- ceiling(total_samples / box_slots)
   required_boxes <- boxes_per_condition * length(conditions)
 
-  if (!is.null(availableBoxes) && required_boxes > availableBoxes) {
-    stop(paste("Insufficient available boxes. Required:", required_boxes, "Available:", availableBoxes))
+  if (!is.null(availableGrids) && required_boxes > availableGrids) {
+    stop(paste("Insufficient available boxes. Required:", required_boxes, "Available:", availableGrids))
   }
 
-  samples$genotypes <- samples[[genotypes]]
+  samples$sample_labels <- samples[[sample_labels]]
   samples$reps <- samples[[reps]]
 
   condition_samples <- lapply(conditions, function(condition) {
-    samples_expanded <- do.call(rbind, lapply(seq_along(samples$genotypes), function(i) {
+    samples_expanded <- do.call(rbind, lapply(seq_along(samples$sample_labels), function(i) {
       data.frame(
-        Genotype = samples$genotypes[i],
+        Genotype = samples$sample_labels[i],
         Replicate = seq_len(samples$reps[i]),
         Condition = condition,
-        Label = paste(condition, samples$genotypes[i], seq_len(samples$reps[i]), sep = "_")
+        Label = paste(condition, samples$sample_labels[i], seq_len(samples$reps[i]), sep = "_")
       )
     }))
     return(samples_expanded)
   })
 
+  # Initialize the progress bar
+  pb <- progress::progress_bar$new(
+    format = "[:bar] :percent | Iteration :current/:total | ETA: :eta",
+    total = nIterations,
+    clear = FALSE,
+    width = 60
+  )
+
   evaluate_solution <- function(iteration, retries = 3) {
-    all_genotypes <- unique(unlist(lapply(condition_samples, function(s) s$Genotype)))
+    all_sample_labels <- unique(unlist(lapply(condition_samples, function(s) s$Genotype)))
 
     for (attempt in seq_len(retries)) {
       all_condition_boxes <- list()
@@ -70,8 +84,8 @@ generateGrids <- function(samples, genotypes, reps, conditions, boxRows, boxCols
         boxes_per_condition <- ceiling(nSamples / box_slots)
 
         condition_boxes <- replicate(boxes_per_condition, {
-          list(box = matrix(NA, nrow = boxRows, ncol = boxCols),
-               genotypes = setNames(rep(0, length(all_genotypes)), all_genotypes))
+          list(box = matrix(NA, nrow = gridRows, ncol = gridCols),
+               sample_labels = setNames(rep(0, length(all_sample_labels)), all_sample_labels))
         }, simplify = FALSE)
 
         for (sample_idx in seq_len(nSamples)) {
@@ -81,7 +95,7 @@ generateGrids <- function(samples, genotypes, reps, conditions, boxRows, boxCols
           valid_boxes <- which(sapply(condition_boxes, function(b) any(is.na(b$box))))
           if (length(valid_boxes) == 0) stop("No empty boxes available for placement.")
 
-          genotype_counts <- sapply(condition_boxes[valid_boxes], function(b) b$genotypes[genotype])
+          genotype_counts <- sapply(condition_boxes[valid_boxes], function(b) b$sample_labels[genotype])
           min_genotype_count <- min(genotype_counts, na.rm = TRUE)
           candidate_boxes <- valid_boxes[genotype_counts == min_genotype_count]
 
@@ -96,7 +110,7 @@ generateGrids <- function(samples, genotypes, reps, conditions, boxRows, boxCols
 
           empty_slot_idx <- empty_slot_indices[1, ]
           condition_boxes[[target_box_idx]]$box[empty_slot_idx[1], empty_slot_idx[2]] <- replicate_label
-          condition_boxes[[target_box_idx]]$genotypes[genotype] <- condition_boxes[[target_box_idx]]$genotypes[genotype] + 1
+          condition_boxes[[target_box_idx]]$sample_labels[genotype] <- condition_boxes[[target_box_idx]]$sample_labels[genotype] + 1
         }
 
         for (i in seq_along(condition_boxes)) {
@@ -116,7 +130,11 @@ generateGrids <- function(samples, genotypes, reps, conditions, boxRows, boxCols
     return(NULL)
   }
 
-  results <- parallel::mclapply(seq_len(nIterations), evaluate_solution, mc.cores = nCores)
+  results <- parallel::mclapply(seq_len(nIterations), function(iteration) {
+    pb$tick()
+    evaluate_solution(iteration)
+  }, mc.cores = nCores)
+
   valid_results <- Filter(Negate(is.null), results)
   return(valid_results)
 }
