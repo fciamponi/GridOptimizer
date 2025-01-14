@@ -50,7 +50,7 @@ conditions <- c("cond1", "cond2", "cond3")
 
 boxes <- generateBoxes(
   samples = samples,
-  genotypes = "Genotype",
+  sample_label = "Genotype",
   reps = "Reps",
   conditions = conditions,
   boxRows = 3,
