@@ -53,8 +53,8 @@ grids <- generateGrids(
   sample_label = "Genotype",
   reps = "Reps",
   conditions = conditions,
-  boxRows = 3,
-  boxCols = 3,
+  gridRows = 3,
+  gridCols = 3,
   nIterations = 10,
   nCores = 2
 )
