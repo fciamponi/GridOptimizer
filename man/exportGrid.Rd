@@ -4,12 +4,7 @@
 \alias{exportGrid}
 \title{Export Box Results}
 \usage{
-exportGrid(
-  experiment,
-  boxes,
-  file_name = "experiment_output",
-  font_size = NULL
-)
+exportGrid(experiment, boxes, file_name = "experiment_output")
 }
 \arguments{
 \item{experiment}{The experiment number to export.}
@@ -17,14 +12,12 @@ exportGrid(
 \item{boxes}{A list of box generation results.}
 
 \item{file_name}{Base name for output files.}
-
-\item{font_size}{Optional font size for PDF plots.}
 }
 \value{
-Generates Excel and PDF files with the results.
+Generates an Excel file with the results and optionally a PDF file.
 }
 \description{
-Exports box results to Excel and PDF formats for visualization and analysis.
+Exports box results to Excel and optionally generates PDF for visualization.
 }
 \examples{
 samples <- data.frame(Genotype = c("G1", "G2", "G3"), Reps = c(2, 2, 1))

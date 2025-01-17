@@ -12,8 +12,8 @@ mock_samples <- data.frame(
 mock_conditions <- c("cond1", "cond2", "cond3")
 
 # Box dimensions
-box_rows <- 3
-box_cols <- 3
+box_rows <- 10
+box_cols <- 6
 
 # Number of iterations and cores for parallel processing
 n_iterations <- 10
@@ -23,7 +23,7 @@ n_cores <- 2
 mock_box_results <- generateGrids(
   samples = mock_samples,
   sample_labels = "Genotype",
-  reps = "Reps",
+  reps = "plants",
   conditions = mock_conditions,
   gridRows = box_rows,
   gridCols = box_cols,
@@ -36,7 +36,7 @@ mock_scores <- scoreGrids(mock_box_results)
 
 # Export the first experiment to Excel and PDF files
 exportGrid(
-  experiment = 1,
+  experiment = 2,
   boxes = mock_box_results,
   file_name = "docs/mock_experiment_results"
 )
@@ -49,7 +49,7 @@ exportGrid(
 # and use it to generate updated box maps in PDF format.
 
 # Example: Load the modified "Sample Placement" sheet
-updated_sample_placement <- read.xlsx('./mock_experiment_results.xlsx', sheet = "Sample Placement")
+updated_sample_placement <- read.xlsx('docs/mock_experiment_results.xlsx', sheet = "Sample Placement")
 
 # Generate updated PDF maps
 generateMaps(
@@ -60,7 +60,7 @@ generateMaps(
   box = "Box",
   row = "Row",
   col = "Column",
-  file_name = "updated_box_maps"
+  file_name = "docs/updated_box_maps"
 )
 
 # The output PDF file "updated_box_maps.pdf" will be saved in the working directory.
