@@ -8,7 +8,7 @@ GridOptimizer is an R package for generating, visualizing, and analyzing genotyp
 
 - Generate experimental grids with replicates across conditions.
 - Export results to Excel and PDF formats.
-- Score grids using metrics like entropy, Simpson's index, and randomness percentage.
+- Score grids using metrics like entropy and Simpson's index.
 - Update and visualize sample placements from modified Excel sheets.
 
 ---
